@@ -1,0 +1,395 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Özet Test Analizi ve Raporlama</title>
+    <style>
+        /* --- CSS TASARIMI (Bordo - Krem Tema) --- */
+        :root {
+            --primary-color: #7f021f; /* Bordo */
+            --bg-color: #f5ebd0;      /* Açık Krem */
+            --text-color: #7f021f;    /* Bordo Metin */
+            --card-bg: #fbf4e1;       /* Kart Rengi */
+            --border-color: #ccc;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            margin: 0;
+            padding: 20px;
+            display: flex;
+            justify-content: center;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 900px;
+        }
+
+        h1 {
+            text-align: center;
+            color: var(--primary-color);
+            margin-bottom: 20px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .card {
+            background: var(--card-bg);
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+            padding: 25px;
+            margin-bottom: 20px;
+            border: 1px solid rgba(127, 2, 31, 0.1);
+        }
+
+        /* Input Grid Yapısı */
+        .input-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+            margin-bottom: 15px;
+        }
+
+        .input-group label {
+            font-size: 14px;
+            font-weight: 700;
+            margin-bottom: 5px;
+            display: block;
+            color: var(--text-color);
+        }
+
+        .input-group input {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid var(--border-color);
+            border-radius: 4px;
+            box-sizing: border-box;
+            font-size: 14px;
+            background-color: #fff;
+            color: #333;
+        }
+
+        label.main-label {
+            font-weight: bold;
+            display: block;
+            margin-bottom: 10px;
+            font-size: 16px;
+        }
+
+        .helper-text {
+            font-size: 0.9em;
+            color: #6d4c41;
+            margin-bottom: 10px;
+        }
+
+        textarea {
+            width: 100%;
+            height: 120px;
+            padding: 10px;
+            border: 1px solid var(--border-color);
+            border-radius: 4px;
+            font-family: 'Courier New', Courier, monospace;
+            font-size: 14px;
+            box-sizing: border-box;
+            resize: vertical;
+            background-color: #fff;
+            color: #333;
+        }
+
+        .btn-group {
+            margin-top: 15px;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+
+        button {
+            padding: 10px 20px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 14px;
+            font-weight: bold;
+            transition: all 0.3s;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+
+        button:active { transform: scale(0.98); }
+
+        /* Buton Renkleri */
+        .btn-calc { background-color: var(--primary-color); color: white; }
+        .btn-calc:hover { background-color: #5e0015; }
+
+        .btn-reset { background-color: #a1887f; color: white; }
+        .btn-reset:hover { background-color: #8d6e63; }
+
+        .btn-sample { background-color: #5d4037; color: white; }
+        .btn-sample:hover { background-color: #4e342e; }
+
+        .btn-download { background-color: #3e2723; color: white; }
+        .btn-download:hover { background-color: #281a17; }
+
+        /* Özet Kutuları */
+        .summary-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+            gap: 15px;
+            margin-top: 20px;
+        }
+
+        .stat-box {
+            background: #fff;
+            padding: 15px;
+            border-radius: 6px;
+            text-align: center;
+            border-left: 4px solid var(--primary-color);
+            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+        }
+
+        .stat-box h3 { margin: 0; font-size: 22px; color: var(--primary-color); }
+        .stat-box p { margin: 5px 0 0; font-size: 12px; color: #555; font-weight: bold; }
+
+        /* Tablo */
+        table { width: 100%; border-collapse: collapse; margin-top: 20px; }
+        th, td { text-align: center; padding: 12px; border-bottom: 1px solid #ddd; color: #333; }
+        th { background-color: #ece0ca; color: var(--text-color); font-size: 14px; border-bottom: 2px solid var(--primary-color); }
+        td { font-size: 14px; }
+        tr:hover { background-color: #fff8e1; }
+
+        .hidden { display: none; }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h1>Özet Test Analizi</h1>
+
+    <div class="card">
+        <div class="input-grid">
+            <div class="input-group">
+                <label for="dersVal">Ders</label>
+                <input type="text" id="dersVal" placeholder="Örn: Matematik">
+            </div>
+            <div class="input-group">
+                <label for="konuVal">Konu</label>
+                <input type="text" id="konuVal" placeholder="Örn: Türev">
+            </div>
+            <div class="input-group">
+                <label for="yayinVal">Yayınevi</label>
+                <input type="text" id="yayinVal" placeholder="Örn: X Yayınları">
+            </div>
+        </div>
+
+        <label class="main-label" for="dataInput">Test Verileri (Doğru-Yanlış-Boş)</label>
+        <div class="helper-text">Her satıra bir test giriniz. Örn: 18-6-1</div>
+        <textarea id="dataInput" placeholder="Örn:&#10;18-6-1&#10;15-7-3"></textarea>
+        
+        <div class="btn-group">
+            <button class="btn-calc" onclick="hesapla()">⚡ Hesapla</button>
+            <button class="btn-reset" onclick="sifirla()">🔄 Sıfırla</button>
+            <button class="btn-sample" onclick="ornekVeri()">+ Örnek Veri</button>
+            <button class="btn-download hidden" id="downloadBtn" onclick="indirTXT()">💾 Rapor İndir</button>
+        </div>
+    </div>
+
+    <div id="resultsArea" class="hidden">
+        <div class="card">
+            <h3>Toplam Sonuçlar</h3>
+            <div class="summary-grid">
+                <div class="stat-box"><h3 id="totalTests">0</h3><p>Test Sayısı</p></div>
+                <div class="stat-box"><h3 id="totalQuestions">0</h3><p>Toplam Soru</p></div>
+                <div class="stat-box"><h3 id="totalCorrect">0</h3><p>Toplam Doğru</p></div>
+                <div class="stat-box"><h3 id="totalIncorrect">0</h3><p>Toplam Yanlış</p></div>
+                <div class="stat-box"><h3 id="totalEmpty">0</h3><p>Toplam Boş</p></div>
+                <div class="stat-box"><h3 id="totalNet">0</h3><p>Toplam Net</p></div>
+                <div class="stat-box"><h3 id="avgSuccess">%0</h3><p>Başarı Yüzdesi</p></div>
+            </div>
+        </div>
+
+        <div class="card">
+            <h3>Test Detayları</h3>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Test No</th>
+                        <th>Doğru</th>
+                        <th>Yanlış</th>
+                        <th>Boş</th>
+                        <th>Toplam</th>
+                        <th>Net</th>
+                        <th>Başarı %</th>
+                    </tr>
+                </thead>
+                <tbody id="tableBody"></tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+<script>
+    // Global değişkenler
+    let globalResults = [];
+    let summaryStats = {};
+
+    function ornekVeri() {
+        document.getElementById("dersVal").value = "Matematik";
+        document.getElementById("konuVal").value = "Problemler";
+        document.getElementById("yayinVal").value = "Hız Yayınları";
+        document.getElementById("dataInput").value = "18-6-1\n15-7-3\n20-4-1\n16-5-4\n17-3-5";
+    }
+
+    function sifirla() {
+        document.getElementById("dataInput").value = "";
+        document.getElementById("dersVal").value = "";
+        document.getElementById("konuVal").value = "";
+        document.getElementById("yayinVal").value = "";
+        document.getElementById("resultsArea").classList.add("hidden");
+        document.getElementById("downloadBtn").classList.add("hidden");
+        globalResults = [];
+    }
+
+    function hesapla() {
+        const input = document.getElementById("dataInput").value.trim();
+        if (!input) { alert("Lütfen veri giriniz."); return; }
+
+        const lines = input.split("\n");
+        let tTests = 0, tQuestions = 0, tCorrect = 0, tIncorrect = 0, tEmpty = 0, tNet = 0;
+        let tableHtml = "";
+        globalResults = [];
+
+        lines.forEach((line, index) => {
+            const parts = line.split("-");
+            if(parts.length < 2) return;
+
+            const d = parseInt(parts[0]) || 0;
+            const y = parseInt(parts[1]) || 0;
+            const b = parseInt(parts[2]) || 0;
+
+            const toplamSoru = d + y + b;
+            const net = d - (y / 4);
+            let successRate = 0;
+            if (toplamSoru > 0) successRate = (d / toplamSoru) * 100;
+
+            // Global listeye kaydet
+            globalResults.push({
+                testNo: index + 1,
+                d: d,
+                y: y,
+                b: b,
+                total: toplamSoru,
+                net: net.toFixed(2),
+                success: successRate.toFixed(1)
+            });
+
+            tTests++;
+            tQuestions += toplamSoru;
+            tCorrect += d;
+            tIncorrect += y;
+            tEmpty += b;
+            tNet += net;
+
+            tableHtml += `
+                <tr>
+                    <td>Test ${index + 1}</td>
+                    <td>${d}</td>
+                    <td>${y}</td>
+                    <td>${b}</td>
+                    <td>${toplamSoru}</td>
+                    <td>${net.toFixed(2)}</td>
+                    <td>%${successRate.toFixed(1)}</td>
+                </tr>
+            `;
+        });
+
+        let totalSuccessRate = 0;
+        if (tQuestions > 0) totalSuccessRate = (tCorrect / tQuestions) * 100;
+
+        summaryStats = {
+            tests: tTests,
+            questions: tQuestions,
+            correct: tCorrect,
+            incorrect: tIncorrect,
+            empty: tEmpty,
+            net: tNet.toFixed(2),
+            success: "%" + totalSuccessRate.toFixed(2)
+        };
+
+        // Ekrana Yazdır
+        document.getElementById("totalTests").innerText = tTests;
+        document.getElementById("totalQuestions").innerText = tQuestions;
+        document.getElementById("totalCorrect").innerText = tCorrect;
+        document.getElementById("totalIncorrect").innerText = tIncorrect;
+        document.getElementById("totalEmpty").innerText = tEmpty;
+        document.getElementById("totalNet").innerText = tNet.toFixed(2);
+        document.getElementById("avgSuccess").innerText = summaryStats.success;
+
+        document.getElementById("tableBody").innerHTML = tableHtml;
+        document.getElementById("resultsArea").classList.remove("hidden");
+        document.getElementById("downloadBtn").classList.remove("hidden");
+    }
+
+    function indirTXT() {
+        // Değerleri al, boşsa "Belirtilmedi" yaz
+        const ders = document.getElementById("dersVal").value || "DersBelirtilmedi";
+        const konu = document.getElementById("konuVal").value || "KonuBelirtilmedi";
+        const yayin = document.getElementById("yayinVal").value || "YayinBelirtilmedi";
+        
+        // Tarih ve Saat (İçerik için)
+        const now = new Date();
+        const tarihSaat = now.toLocaleString('tr-TR');
+
+        // Tarih Formatı (Dosya ismi için: Gün_Ay_Yıl)
+        const day = String(now.getDate()).padStart(2, '0');
+        const month = String(now.getMonth() + 1).padStart(2, '0');
+        const year = now.getFullYear();
+        const dateStr = `${day}_${month}_${year}`;
+
+        // Dosya İçeriği Hazırlama
+        let content = "";
+        content += `Ders: ${ders}\n`;
+        content += `Konu: ${konu}\n`;
+        content += `Yayınevi: ${yayin}\n`;
+        content += `--------------------------------\n`;
+        content += `Test Sayısı: ${summaryStats.tests}\n`;
+        content += `Toplam Soru: ${summaryStats.questions}\n`;
+        content += `Toplam Doğru: ${summaryStats.correct}\n`;
+        content += `Toplam Yanlış: ${summaryStats.incorrect}\n`;
+        content += `Toplam Boş: ${summaryStats.empty}\n`;
+        content += `Toplam Net: ${summaryStats.net}\n`;
+        content += `Başarı Yüzdesi: ${summaryStats.success}\n`;
+        content += `--------------------------------\n`;
+        content += `Test Detayları Tablosu:\n\n`;
+        content += `TEST NO | DOĞRU | YANLIŞ | BOŞ | TOPLAM | NET | BAŞARI\n`;
+        content += `-------------------------------------------------------\n`;
+
+        globalResults.forEach(r => {
+             content += `Test ${r.testNo}\t| ${r.d}\t| ${r.y}\t| ${r.b}\t| ${r.total}\t| ${r.net}\t| %${r.success}\n`;
+        });
+
+        content += `\n--------------------------------\n`;
+        content += `Oluşturulma Tarihi: ${tarihSaat}`;
+
+        // Dosya Adı Temizleme (Boşlukları ve özel karakterleri _ yapar)
+        const cleanText = (text) => text.replace(/[^a-zA-Z0-9ğüşıöçĞÜŞİÖÇ]/g, "_");
+        
+        // Dosya Adı: Tarih_Ders_Konu_Yayınevi_DYB_Analizi.txt
+        const fileName = `${dateStr}_${cleanText(ders)}_${cleanText(konu)}_${cleanText(yayin)}_DYB_Analizi.txt`;
+
+        // İndirme İşlemi
+        const blob = new Blob([content], { type: "text/plain;charset=utf-8" });
+        const link = document.createElement("a");
+        link.href = URL.createObjectURL(blob);
+        link.download = fileName;
+        
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+    }
+</script>
+
+</body>
+</html>
