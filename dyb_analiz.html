@@ -262,7 +262,9 @@
         globalResults = [];
 
         lines.forEach((line, index) => {
-            const parts = line.split("-");
+            // Tire (en-dash, em-dash) normalleştirme
+            const normalizedLine = line.replace(/[–—]/g, "-");
+            const parts = normalizedLine.split("-");
             if(parts.length < 2) return;
 
             const d = parseInt(parts[0]) || 0;
